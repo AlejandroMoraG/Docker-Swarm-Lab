@@ -1,9 +1,11 @@
+# Script to install docker
 $install_docker_script = <<SCRIPT
 echo Instalando Docker...
 curl -sSL https://get.docker.com/ | sh
 usermod -aG docker ubuntu
 SCRIPT
 
+# Script to config the manager and run de visualizer
 $manager_script = <<SCRIPT
 echo Swarm Init...
 docker swarm init --listen-addr 192.168.1.100:2377 --advertise-addr 192.168.1.100:2377
@@ -11,6 +13,7 @@ docker swarm join-token --quiet worker > /vagrant/worker_token
 docker run -ti -d -p 5000:5000 -e HOST=localhost -e PORT=5000 -v /var/run/docker.sock:/var/run/docker.sock manomarks/visualizer
 SCRIPT
 
+# Script to join the workers with the manager
 $worker_script = <<SCRIPT
 echo Swarm Join...
 docker swarm join --token $(cat /vagrant/worker_token) 192.168.1.100:2377
