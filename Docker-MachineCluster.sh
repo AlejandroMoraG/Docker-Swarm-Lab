@@ -20,6 +20,6 @@ for i in "02" "03";do
 done
 
 eval $(docker-machine env node-01)
-
+#test
 docker-machine ls
 docker node ls
